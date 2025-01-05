@@ -3,8 +3,8 @@ import PageTitle from "../components/page-title";
 export const SignupPage = () => {
   return (
     <>
-      <PageTitle title="Signup" />
-      <h1>Signup</h1>
+      <PageTitle title="Sign Up" />
+      <h1>Sign Up</h1>
     </>
   );
 };
