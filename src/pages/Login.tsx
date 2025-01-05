@@ -1,5 +1,12 @@
+import PageTitle from "../components/page-title";
+
 export const LoginPage = () => {
-  return <h1>Login</h1>;
+  return (
+    <>
+      <PageTitle title="Login" />
+      <h1>Login</h1>
+    </>
+  );
 };
 
 export default LoginPage;
