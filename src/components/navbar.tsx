@@ -27,8 +27,8 @@ open attribute in the details element which has the menu items.
 */
 const MenuItems = ({ onClick }: { onClick: () => void }) => {
   return menuItems.map((m, index) => (
-    <li>
-      <NavLink to={m.path} key={`menu-item-${index}`} onClick={onClick}>
+    <li key={`menu-item-${index}`}>
+      <NavLink to={m.path} onClick={onClick}>
         {m.text}
       </NavLink>
     </li>
