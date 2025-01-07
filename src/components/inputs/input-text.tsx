@@ -12,7 +12,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 
 /**
  * Creates an input component.
- * Supports only email, password and ofcourse text
+ * Supports only email, password, text
  */
 export const InputText: FC<InputProps> = ({
   label,
