@@ -4,6 +4,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import PageTitle from "../components/page-title";
+import { InputText } from "../components/inputs";
+
 import { SignupSchema, TSignupSchema } from "../lib/schemas/Signup";
 
 export const SignupPage = () => {
@@ -30,56 +32,44 @@ export const SignupPage = () => {
 
           <form onSubmit={handleSubmit(onSubmit)} className="mt-2">
             {/* name */}
-            <label className="form-control w-full max-w-sm">
-              <div className="label">
-                <span className="label-text text-error">
-                  What is your name?
-                </span>
-              </div>
-              <input
-                type="text"
-                placeholder="Jack Sparrow"
-                className="input input-bordered w-full max-w-sm input-error"
-                {...register("fullName")}
-              />
-            </label>
-            {true && <p className="text-error">Yo!</p>}
+            <InputText
+              type="text"
+              label="What is your name?"
+              placeholder="Jack Sparrow"
+              fullWidth
+              hookFormRegister={register("fullName")}
+              error={errors.fullName?.message}
+            />
+
             {/* email */}
-            <label className="form-control w-full max-w-sm">
-              <div className="label">
-                <span className="label-text">Email address</span>
-              </div>
-              <input
-                type="email"
-                placeholder="jack@blackpearl.com"
-                className="input input-bordered w-full max-w-sm"
-                {...register("email")}
-              />
-            </label>
+            <InputText
+              type="email"
+              label="Email address"
+              placeholder="jack@blackpearl.com"
+              fullWidth
+              hookFormRegister={register("email")}
+              error={errors.email?.message}
+            />
+
             {/* password */}
-            <label className="form-control w-full max-w-sm">
-              <div className="label">
-                <span className="label-text">Password</span>
-              </div>
-              <input
-                type="password"
-                placeholder="Super secret password"
-                className="input input-bordered w-full max-w-sm"
-                {...register("password")}
-              />
-            </label>
+            <InputText
+              type="password"
+              label="Password"
+              placeholder="SuperSecret"
+              fullWidth
+              hookFormRegister={register("password")}
+              error={errors.password?.message}
+            />
+
             {/* confirm password */}
-            <label className="form-control w-full max-w-sm">
-              <div className="label">
-                <span className="label-text">Confirm password</span>
-              </div>
-              <input
-                type="password"
-                placeholder="That password again"
-                className="input input-bordered w-full max-w-sm"
-                {...register("confirmPassword")}
-              />
-            </label>
+            <InputText
+              type="password"
+              label="Cofirm password"
+              placeholder="SuperSecret"
+              fullWidth
+              hookFormRegister={register("confirmPassword")}
+              error={errors.confirmPassword?.message}
+            />
 
             <div className="mt-4">
               <button
