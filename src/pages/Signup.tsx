@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import PageTitle from "../components/page-title";
 import { InputText } from "../components/inputs";
+import Loading from "../components/loading";
 
 import { SignupSchema, TSignupSchema } from "../lib/schemas/Signup";
 
@@ -77,6 +78,7 @@ export const SignupPage = () => {
                 type="submit"
                 disabled={isSubmitting}
               >
+                {isSubmitting && <Loading />}
                 Create account
               </button>
               <p className="text-sm mt-1">
