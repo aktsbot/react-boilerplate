@@ -14,7 +14,7 @@ export const SignupPage = () => {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-    reset,
+    // reset,
   } = useForm<TSignupSchema>({
     resolver: zodResolver(SignupSchema),
   });
