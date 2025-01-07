@@ -8,19 +8,26 @@ import { InputText } from "@/components/inputs";
 import Loading from "@/components/loading";
 
 import { SignupSchema, TSignupSchema } from "@/lib/schemas/Signup";
+import { api_signup } from "@/api/auth";
 
 export const SignupPage = () => {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-    // reset,
+    reset,
   } = useForm<TSignupSchema>({
     resolver: zodResolver(SignupSchema),
   });
 
-  const onSubmit = (data: TSignupSchema) => {
-    console.log(data);
+  const onSubmit = async (data: TSignupSchema) => {
+    const payload = {
+      email: data.email,
+      fullName: data.fullName,
+      password: data.password,
+    };
+    await api_signup(payload);
+    reset();
   };
 
   return (

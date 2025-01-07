@@ -1,6 +1,7 @@
 import { Outlet } from "react-router";
 
 import Navbar from "./navbar";
+import AppAlertMessages from "./app-alert-messages";
 
 export const PageLayout = () => {
   return (
@@ -9,6 +10,7 @@ export const PageLayout = () => {
       <div className="container mx-auto px-4">
         <Outlet />
       </div>
+      <AppAlertMessages />
     </>
   );
 };
