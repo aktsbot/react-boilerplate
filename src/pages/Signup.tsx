@@ -3,11 +3,11 @@ import { Link } from "react-router";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import PageTitle from "../components/page-title";
-import { InputText } from "../components/inputs";
-import Loading from "../components/loading";
+import PageTitle from "@/components/page-title";
+import { InputText } from "@/components/inputs";
+import Loading from "@/components/loading";
 
-import { SignupSchema, TSignupSchema } from "../lib/schemas/Signup";
+import { SignupSchema, TSignupSchema } from "@/lib/schemas/Signup";
 
 export const SignupPage = () => {
   const {

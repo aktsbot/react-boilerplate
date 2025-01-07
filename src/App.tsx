@@ -1,13 +1,13 @@
 import { lazy, Suspense } from "react";
 import { BrowserRouter, Routes, Route } from "react-router";
 
-import PageLayout from "./components/page-layout";
-import Loading from "./components/loading";
+import PageLayout from "@/components/page-layout";
+import Loading from "@/components/loading";
 
-import HomePage from "./pages/Home";
-const LoginPage = lazy(() => import("./pages/Login"));
-const SignupPage = lazy(() => import("./pages/Signup"));
-const AboutPage = lazy(() => import("./pages/About"));
+import HomePage from "@/pages/Home";
+const LoginPage = lazy(() => import("@/pages/Login"));
+const SignupPage = lazy(() => import("@/pages/Signup"));
+const AboutPage = lazy(() => import("@/pages/About"));
 
 const AppRouter = () => {
   return (
