@@ -9,6 +9,7 @@ import Loading from "@/components/loading";
 
 import { SignupSchema, TSignupSchema } from "@/lib/schemas/Signup";
 import { api_signup } from "@/api/auth";
+import { logger } from "@/utils";
 
 export const SignupPage = () => {
   const {
@@ -26,8 +27,12 @@ export const SignupPage = () => {
       fullName: data.fullName,
       password: data.password,
     };
-    await api_signup(payload);
-    reset();
+    try {
+      await api_signup(payload);
+      reset();
+    } catch (error) {
+      logger(error);
+    }
   };
 
   return (

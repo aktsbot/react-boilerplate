@@ -9,7 +9,7 @@ export type TAlertMessage = {
 
 interface IGeneralStoreState {
   alertMessages: TAlertMessage[];
-  addAlertMessage: (payload: TAlertMessage) => void;
+  addAlertMessage: (payload: Omit<TAlertMessage, "id">) => void;
   removeAlertMessage: (id: string) => void;
 }
 
