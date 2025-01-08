@@ -1,6 +1,8 @@
 import { NavLink } from "react-router";
 import { useRef } from "react";
 
+import useAuthStore from "@/store/auth";
+
 const menuItems = [
   {
     path: "/",
@@ -40,6 +42,8 @@ const MenuItems = ({ onClick }: { onClick: () => void }) => {
 };
 
 export const Navbar = () => {
+  const { isLoggedIn } = useAuthStore();
+
   const ref = useRef<HTMLDetailsElement>(null);
 
   // Menu item click to close the dropdown
@@ -90,7 +94,11 @@ export const Navbar = () => {
       <div className="flex-none">
         <ul className="menu menu-horizontal px-1">
           <li>
-            <NavLink to="/logout">Logout</NavLink>
+            {isLoggedIn ? (
+              <NavLink to="/logout">Log Out</NavLink>
+            ) : (
+              <NavLink to="/login">Login</NavLink>
+            )}
           </li>
         </ul>
       </div>
