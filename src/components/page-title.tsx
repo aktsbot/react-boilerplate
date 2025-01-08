@@ -1,9 +1,11 @@
 import { useEffect } from "react";
 
+import { config } from "@/config";
+
+const baseTitle = config.appTitle;
+
 export const PageTitle = ({ title }: { title: string }) => {
   useEffect(() => {
-    // TODO: get app name from env
-    const baseTitle = "myapp";
     if (title) {
       document.title = `${title} | ${baseTitle}`;
     } else {
