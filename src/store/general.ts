@@ -1,9 +1,9 @@
 import { create } from "zustand";
 import { v4 as uuidv4 } from "uuid";
 
-type TAlertMessage = {
-  message: string;
-  type: "error" | "success" | "warning";
+export type TAlertMessage = {
+  text: string;
+  type?: "error" | "success" | "warning" | "info";
   id: string;
 };
 
