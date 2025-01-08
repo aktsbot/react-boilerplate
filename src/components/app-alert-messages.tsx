@@ -8,6 +8,11 @@ export const AppAlertMessages = () => {
     return;
   }
 
+  /*
+  Note: In this case we are passing a onClose
+  Without this, the messages will stay on the ui, which is annoying
+  Build an auto close after x seconds to dismiss the messages
+  */
   return (
     <div className="toast">
       {alertMessages.map((am) => (
