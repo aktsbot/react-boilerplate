@@ -18,6 +18,10 @@ const menuItems = [
     path: "/signup",
     text: "Sign Up",
   },
+  {
+    path: "/account",
+    text: "Account",
+  },
 ];
 
 /*
