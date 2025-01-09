@@ -12,3 +12,7 @@ type TSignupPayload = Omit<TSignupSchema, "confirmPassword">;
 export const api_signup = (payload: TSignupPayload) => {
   return http.post("/auth/signup", payload);
 };
+
+export const api_userinfo = () => {
+  return http.get("/auth/user-info");
+};

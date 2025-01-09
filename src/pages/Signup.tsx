@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { Link, Navigate } from "react-router";
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -11,7 +11,11 @@ import { SignupSchema, TSignupSchema } from "@/lib/schemas/Signup";
 import { api_signup } from "@/api/auth";
 import { logger } from "@/utils";
 
+import useAuthStore from "@/store/auth";
+
 export const SignupPage = () => {
+  const { isLoggedIn } = useAuthStore();
+
   const {
     register,
     handleSubmit,
@@ -34,6 +38,10 @@ export const SignupPage = () => {
       logger(error);
     }
   };
+
+  if (isLoggedIn) {
+    return <Navigate to="/" />;
+  }
 
   return (
     <>

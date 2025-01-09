@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router";
 import PageLayout from "@/components/page-layout";
 import Loading from "@/components/loading";
 import RequireAuth from "@/components/require-auth";
+import AppInit from "@/components/app-init";
 
 import HomePage from "@/pages/Home";
 const LoginPage = lazy(() => import("@/pages/Login"));
@@ -41,7 +42,12 @@ const AppRouter = () => {
 };
 
 function App() {
-  return <AppRouter />;
+  return (
+    <>
+      <AppInit />
+      <AppRouter />
+    </>
+  );
 }
 
 export default App;
