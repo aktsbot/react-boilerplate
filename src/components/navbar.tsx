@@ -1,28 +1,39 @@
 import { NavLink } from "react-router";
-import { useRef } from "react";
+import { useRef, memo } from "react";
 
 import useAuthStore from "@/store/auth";
 
+/**
+ * routeType:
+ *  public - any one can access. always in menu
+ *  public-auth - show only if the user is not logged in
+ *  private-auth - show only if the user is logged in
+ */
 const menuItems = [
   {
     path: "/",
     text: "Home",
+    routeType: "public",
   },
   {
     path: "/about",
     text: "About",
+    routeType: "public",
   },
   {
     path: "/login",
     text: "Login",
+    routeType: "public-auth",
   },
   {
     path: "/signup",
     text: "Sign Up",
+    routeType: "public-auth",
   },
   {
     path: "/account",
     text: "Account",
+    routeType: "private-auth",
   },
 ];
 
@@ -31,8 +42,25 @@ when a link is clicked and the corresponding page is loaded,
 the dropdown still stays open. this is a workaround to remove the
 open attribute in the details element which has the menu items.
 */
-const MenuItems = ({ onClick }: { onClick: () => void }) => {
-  return menuItems.map((m, index) => (
+const MenuItems = ({
+  onClick,
+  isLoggedIn,
+}: {
+  onClick: () => void;
+  isLoggedIn: boolean;
+}) => {
+  let items = [...menuItems];
+  if (isLoggedIn) {
+    items = items.filter(
+      (item) => item.routeType === "public" || item.routeType === "private-auth"
+    );
+  } else {
+    items = items.filter(
+      (item) => item.routeType === "public" || item.routeType === "public-auth"
+    );
+  }
+
+  return items.map((m, index) => (
     <li key={`menu-item-${index}`}>
       <NavLink to={m.path} onClick={onClick}>
         {m.text}
@@ -40,6 +68,7 @@ const MenuItems = ({ onClick }: { onClick: () => void }) => {
     </li>
   ));
 };
+const Memoised_MenuItems = memo(MenuItems);
 
 export const Navbar = () => {
   const { isLoggedIn } = useAuthStore();
@@ -82,12 +111,13 @@ export const Navbar = () => {
             tabIndex={0}
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
           >
-            <MenuItems onClick={handleClick} />
+            <Memoised_MenuItems onClick={handleClick} isLoggedIn={isLoggedIn} />
           </ul>
         </details>
       </div>
       <div className="flex-1">
-        <NavLink to="/" className="btn btn-ghost text-xl">
+        {/* the onClick ensures the menu stays closed. */}
+        <NavLink to="/" className="btn btn-ghost text-xl" onClick={handleClick}>
           myapp
         </NavLink>
       </div>
@@ -95,9 +125,13 @@ export const Navbar = () => {
         <ul className="menu menu-horizontal px-1">
           <li>
             {isLoggedIn ? (
-              <NavLink to="/logout">Log Out</NavLink>
+              <NavLink to="/logout" onClick={handleClick}>
+                Log Out
+              </NavLink>
             ) : (
-              <NavLink to="/login">Login</NavLink>
+              <NavLink to="/login" onClick={handleClick}>
+                Login
+              </NavLink>
             )}
           </li>
         </ul>
