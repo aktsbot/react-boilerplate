@@ -13,7 +13,7 @@ import { logger } from "@/utils";
 import useAuthStore from "@/store/auth";
 
 export const LoginPage = () => {
-  const { isLoggedIn, setTokensAndLogin } = useAuthStore();
+  const { isLoggedIn, setTokenAndLogin } = useAuthStore();
 
   const {
     register,
@@ -32,9 +32,8 @@ export const LoginPage = () => {
       const { data: apiData } = await api_login(payload);
       // Note: the refresh token is set in cookie by the Set-Cookie header
       // Check the response from axios for the header.
-      setTokensAndLogin({
+      setTokenAndLogin({
         accessToken: apiData.accessToken,
-        refreshToken: apiData.refreshToken,
         isLoggedIn: true,
       });
       reset();

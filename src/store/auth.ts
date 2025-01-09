@@ -4,17 +4,16 @@ import { TUser } from "@/lib/types";
 
 type TLoginPayload = {
   accessToken: string;
-  refreshToken: string;
   isLoggedIn: boolean;
 };
 
 interface IAuthStoreState {
   accessToken: string;
-  refreshToken: string;
   user: TUser | null;
   isLoggedIn: boolean;
+  lastUpdateOn: Date | null;
 
-  setTokensAndLogin: (payload: TLoginPayload) => void;
+  setTokenAndLogin: (payload: TLoginPayload) => void;
   clearSession: () => void;
   setUser: (user: TUser) => void;
 }
@@ -24,18 +23,19 @@ const useAuthStore = create<IAuthStoreState>((set) => ({
   refreshToken: "",
   user: null,
   isLoggedIn: false,
+  lastUpdateOn: null,
 
-  setTokensAndLogin: (payload: TLoginPayload) => {
-    set((state) => ({ ...state, ...payload }));
+  setTokenAndLogin: (payload: TLoginPayload) => {
+    set((state) => ({ ...state, ...payload, lastUpdateOn: new Date() }));
   },
 
   clearSession: () => {
     set((state) => ({
       ...state,
       accessToken: "",
-      refreshToken: "",
       user: null,
       isLoggedIn: false,
+      lastUpdateOn: new Date(),
     }));
   },
 
