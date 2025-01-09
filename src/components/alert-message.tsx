@@ -17,6 +17,15 @@ const icons = {
   warning: WarningIcon,
 };
 
+// https://tailwindcss.com/docs/content-configuration#dynamic-class-names
+// concatenating classNames will not work!
+const alertClassNames = {
+  error: "alert shadow-lg alert-error",
+  info: "alert shadow-lg alert-info",
+  success: "alert shadow-lg alert-success",
+  warning: "alert shadow-lg alert-warning",
+};
+
 interface IAlertMessage {
   message: TAlertMessage;
   onClose?: () => void;
@@ -28,7 +37,7 @@ export const AlertMessage: FC<IAlertMessage> = ({ message, onClose }) => {
   let Icon = icons.default;
 
   if (message.type) {
-    className += ` alert-${message.type}`;
+    className = alertClassNames[message.type];
     Icon = icons[message.type];
   }
 
