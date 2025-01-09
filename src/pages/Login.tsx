@@ -85,6 +85,11 @@ export const LoginPage = () => {
                 Login
               </button>
               <p className="text-sm mt-1">
+                <Link className="link link-primary" to="/forgot-password">
+                  Forgot password?
+                </Link>
+              </p>
+              <p className="text-sm mt-4">
                 Don't have an account?{" "}
                 <Link className="link link-primary" to="/signup">
                   Sign Up
