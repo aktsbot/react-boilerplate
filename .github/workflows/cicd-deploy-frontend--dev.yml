@@ -1,0 +1,74 @@
+# this will run on every merge to dev branch on github
+# ofcourse we need a dev branch. keeping this as boilerplate
+# this action builds and copies the build to a VM via the traditional
+# way of sshing.
+name: CI/CD - Deploy react frontend [dev]
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Declare git variables for generating version.txt
+        shell: bash
+        run: |
+          echo "sha_short=$(git rev-parse --short "$GITHUB_SHA")" >> "$GITHUB_ENV"
+          echo "branch=$(echo ${GITHUB_REF#refs/heads/})" >> "$GITHUB_ENV"
+
+      - name: npm install and build
+        run: |
+          npm install
+          npm run build --if-present
+          echo "${{ env.branch }} ${{ env.sha_short }}" >> ./dist/version.txt
+
+      - name: Zip artifact for deployment
+        run: zip vite-dist.zip ./dist -r
+
+      - name: Upload built zip artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: vite-app
+          path: vite-dist.zip
+          retention-days: 1
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: vite-app
+          path: distfiles
+
+      # VM_SSH_* are set in project settings in github
+      - name: Copy file to server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.VM_SSH_HOST }}
+          username: ${{ secrets.VM_SSH_USERNAME }}
+          key: ${{ secrets.VM_SSH_KEY }}
+          port: ${{ secrets.VM_SSH_PORT }}
+          source: distfiles/*
+          target: /opt/myapp/frontend
+
+      - name: SSH and clean up the dist
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.VM_SSH_HOST }}
+          username: ${{ secrets.VM_SSH_USERNAME }}
+          key: ${{ secrets.VM_SSH_KEY }}
+          port: ${{ secrets.VM_SSH_PORT }}
+          script: |
+            cd /opt/myapp/frontend
+            mv dist old-dist-backup
+            cd distfiles
+            unzip vite-dist.zip
+            mv dist ../
+            cd ..
+            rm -rf distfiles
+            rm -rf old-dist-backup
+            echo "All done"
