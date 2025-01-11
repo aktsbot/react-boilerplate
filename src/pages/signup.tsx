@@ -94,7 +94,7 @@ export const SignupPage = () => {
             {/* confirm password */}
             <InputText
               type="password"
-              label="Cofirm password"
+              label="Confirm password"
               placeholder="SuperSecret"
               fullWidth
               hookFormRegister={register("confirmPassword")}
