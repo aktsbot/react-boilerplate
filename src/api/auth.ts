@@ -6,6 +6,7 @@ import {
   TLoginSchema,
   TForgotPasswordSchema,
   TResetPasswordSchema,
+  TChangePasswordSchema,
 } from "@/lib/schemas/auth";
 
 type TLoginPayload = TLoginSchema;
@@ -38,4 +39,9 @@ export const api_forgotpassword = (payload: TForgotPasswordPayload) => {
 type TResetPasswordPayload = TResetPasswordSchema;
 export const api_resetpassword = (payload: TResetPasswordPayload) => {
   return http.post("/auth/reset-password", payload);
+};
+
+type TChangePasswordPayload = TChangePasswordSchema;
+export const api_changepassword = (payload: TChangePasswordPayload) => {
+  return http.put("/auth/password", payload);
 };

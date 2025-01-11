@@ -69,6 +69,13 @@ const errorHandler = async (error: AxiosError) => {
     type: "error",
   });
 
+  // if we get a request from the backend to ask the user to login
+  // again, clear tokens
+  const { clearSession } = useAuthStore.getState();
+  if (data && data["messageCode"] && data["messageCode"] === "RE_LOGIN") {
+    clearSession();
+  }
+
   return Promise.reject({ ...error });
 };
 

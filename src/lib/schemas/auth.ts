@@ -30,3 +30,9 @@ export const ResetPasswordSchema = z.object({
   password: z.string().min(1, "Please enter a password"),
 });
 export type TResetPasswordSchema = z.infer<typeof ResetPasswordSchema>;
+
+export const ChangePasswordSchema = z.object({
+  oldPassword: z.string().min(1, "Please enter your current password"),
+  newPassword: z.string().min(1, "Please enter a new password"),
+});
+export type TChangePasswordSchema = z.infer<typeof ChangePasswordSchema>;

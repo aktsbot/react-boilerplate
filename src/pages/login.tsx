@@ -48,7 +48,7 @@ export const LoginPage = () => {
     // they will be taken to login screen, but after the token
     // check is done, they would be marked as logged in. In this case
     // require-auth sets state before navigating here
-    if (state.path) {
+    if (state && state.path) {
       return <Navigate to={state.path} />;
     }
     return <Navigate to="/" />;
