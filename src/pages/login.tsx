@@ -1,4 +1,4 @@
-import { Link, Navigate } from "react-router";
+import { Link, Navigate, useLocation } from "react-router";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -14,6 +14,7 @@ import useAuthStore from "@/store/auth";
 
 export const LoginPage = () => {
   const { isLoggedIn, setTokenAndLogin } = useAuthStore();
+  const { state } = useLocation();
 
   const {
     register,
@@ -43,6 +44,13 @@ export const LoginPage = () => {
   };
 
   if (isLoggedIn) {
+    // did the user refresh the app from a page?
+    // they will be taken to login screen, but after the token
+    // check is done, they would be marked as logged in. In this case
+    // require-auth sets state before navigating here
+    if (state.path) {
+      return <Navigate to={state.path} />;
+    }
     return <Navigate to="/" />;
   }
 

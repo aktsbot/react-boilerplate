@@ -4,7 +4,8 @@ export const AboutPage = () => {
   return (
     <>
       <PageTitle title="About" />
-      <h1>About</h1>
+      <h1 className="text-4xl font-bold">About</h1>
+      <p className="mt-4">Sup!</p>
     </>
   );
 };
