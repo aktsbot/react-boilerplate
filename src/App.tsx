@@ -6,13 +6,13 @@ import Loading from "@/components/loading";
 import RequireAuth from "@/components/require-auth";
 import AppInit from "@/components/app-init";
 
-import HomePage from "@/pages/Home";
-const LoginPage = lazy(() => import("@/pages/Login"));
-const ForgotPasswordPage = lazy(() => import("@/pages/ForgotPassword"));
-const LogoutPage = lazy(() => import("@/pages/Logout"));
-const SignupPage = lazy(() => import("@/pages/Signup"));
-const AboutPage = lazy(() => import("@/pages/About"));
-const AccountPage = lazy(() => import("@/pages/Account"));
+import HomePage from "@/pages/home";
+const LoginPage = lazy(() => import("@/pages/login"));
+const ForgotPasswordPage = lazy(() => import("@/pages/forgot-password"));
+const LogoutPage = lazy(() => import("@/pages/logout"));
+const SignupPage = lazy(() => import("@/pages/signup"));
+const AboutPage = lazy(() => import("@/pages/about"));
+const AccountPage = lazy(() => import("@/pages/account"));
 
 const AppRouter = () => {
   return (

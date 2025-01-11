@@ -1,4 +1,5 @@
-import { Link, Navigate } from "react-router";
+import { Link, Navigate, useNavigate } from "react-router";
+
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -6,37 +7,42 @@ import PageTitle from "@/components/page-title";
 import { InputText } from "@/components/inputs";
 import Loading from "@/components/loading";
 
-import { LoginSchema, TLoginSchema } from "@/lib/schemas/Login";
-import { api_login } from "@/api/auth";
+import { SignupSchema, TSignupSchema } from "@/lib/schemas/signup";
+import { api_signup } from "@/api/auth";
 import { logger } from "@/utils";
 
 import useAuthStore from "@/store/auth";
+import useGeneralStore from "@/store/general";
 
-export const LoginPage = () => {
-  const { isLoggedIn, setTokenAndLogin } = useAuthStore();
+export const SignupPage = () => {
+  const { isLoggedIn } = useAuthStore();
+  const { addAlertMessage } = useGeneralStore();
+
+  const navigate = useNavigate();
 
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
     reset,
-  } = useForm<TLoginSchema>({
-    resolver: zodResolver(LoginSchema),
+  } = useForm<TSignupSchema>({
+    resolver: zodResolver(SignupSchema),
   });
 
-  const onSubmit = async (data: TLoginSchema) => {
+  const onSubmit = async (data: TSignupSchema) => {
     const payload = {
-      ...data,
+      email: data.email,
+      fullName: data.fullName,
+      password: data.password,
     };
     try {
-      const { data: apiData } = await api_login(payload);
-      // Note: the refresh token is set in cookie by the Set-Cookie header
-      // Check the response from axios for the header.
-      setTokenAndLogin({
-        accessToken: apiData.accessToken,
-        isLoggedIn: true,
-      });
+      await api_signup(payload);
       reset();
+      addAlertMessage({
+        text: "Your account has been created",
+        type: "success",
+      });
+      navigate("/login");
     } catch (error) {
       logger(error);
     }
@@ -48,13 +54,23 @@ export const LoginPage = () => {
 
   return (
     <>
-      <PageTitle title="Login" />
+      <PageTitle title="Sign Up" />
 
       <div className="flex flex-col h-full items-center justify-center">
         <div className="w-full sm:max-w-md">
-          <h1 className="text-4xl font-bold">Login</h1>
+          <h1 className="text-4xl font-bold">Sign Up</h1>
 
           <form onSubmit={handleSubmit(onSubmit)} className="mt-2">
+            {/* name */}
+            <InputText
+              type="text"
+              label="What is your name?"
+              placeholder="Jack Sparrow"
+              fullWidth
+              hookFormRegister={register("fullName")}
+              error={errors.fullName?.message}
+            />
+
             {/* email */}
             <InputText
               type="email"
@@ -75,6 +91,16 @@ export const LoginPage = () => {
               error={errors.password?.message}
             />
 
+            {/* confirm password */}
+            <InputText
+              type="password"
+              label="Cofirm password"
+              placeholder="SuperSecret"
+              fullWidth
+              hookFormRegister={register("confirmPassword")}
+              error={errors.confirmPassword?.message}
+            />
+
             <div className="mt-4">
               <button
                 className="btn btn-primary"
@@ -82,17 +108,12 @@ export const LoginPage = () => {
                 disabled={isSubmitting}
               >
                 {isSubmitting && <Loading />}
-                Login
+                Create account
               </button>
               <p className="text-sm mt-1">
-                <Link className="link link-primary" to="/forgot-password">
-                  Forgot password?
-                </Link>
-              </p>
-              <p className="text-sm mt-4">
-                Don't have an account?{" "}
-                <Link className="link link-primary" to="/signup">
-                  Sign Up
+                Already have an account?{" "}
+                <Link className="link link-primary" to="/login">
+                  Log in
                 </Link>
               </p>
             </div>
@@ -103,4 +124,4 @@ export const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default SignupPage;

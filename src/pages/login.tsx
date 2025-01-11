@@ -1,5 +1,4 @@
 import { Link, Navigate } from "react-router";
-
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -7,32 +6,36 @@ import PageTitle from "@/components/page-title";
 import { InputText } from "@/components/inputs";
 import Loading from "@/components/loading";
 
-import { SignupSchema, TSignupSchema } from "@/lib/schemas/Signup";
-import { api_signup } from "@/api/auth";
+import { LoginSchema, TLoginSchema } from "@/lib/schemas/login";
+import { api_login } from "@/api/auth";
 import { logger } from "@/utils";
 
 import useAuthStore from "@/store/auth";
 
-export const SignupPage = () => {
-  const { isLoggedIn } = useAuthStore();
+export const LoginPage = () => {
+  const { isLoggedIn, setTokenAndLogin } = useAuthStore();
 
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
     reset,
-  } = useForm<TSignupSchema>({
-    resolver: zodResolver(SignupSchema),
+  } = useForm<TLoginSchema>({
+    resolver: zodResolver(LoginSchema),
   });
 
-  const onSubmit = async (data: TSignupSchema) => {
+  const onSubmit = async (data: TLoginSchema) => {
     const payload = {
-      email: data.email,
-      fullName: data.fullName,
-      password: data.password,
+      ...data,
     };
     try {
-      await api_signup(payload);
+      const { data: apiData } = await api_login(payload);
+      // Note: the refresh token is set in cookie by the Set-Cookie header
+      // Check the response from axios for the header.
+      setTokenAndLogin({
+        accessToken: apiData.accessToken,
+        isLoggedIn: true,
+      });
       reset();
     } catch (error) {
       logger(error);
@@ -45,23 +48,13 @@ export const SignupPage = () => {
 
   return (
     <>
-      <PageTitle title="Sign Up" />
+      <PageTitle title="Login" />
 
       <div className="flex flex-col h-full items-center justify-center">
         <div className="w-full sm:max-w-md">
-          <h1 className="text-4xl font-bold">Sign Up</h1>
+          <h1 className="text-4xl font-bold">Login</h1>
 
           <form onSubmit={handleSubmit(onSubmit)} className="mt-2">
-            {/* name */}
-            <InputText
-              type="text"
-              label="What is your name?"
-              placeholder="Jack Sparrow"
-              fullWidth
-              hookFormRegister={register("fullName")}
-              error={errors.fullName?.message}
-            />
-
             {/* email */}
             <InputText
               type="email"
@@ -82,16 +75,6 @@ export const SignupPage = () => {
               error={errors.password?.message}
             />
 
-            {/* confirm password */}
-            <InputText
-              type="password"
-              label="Cofirm password"
-              placeholder="SuperSecret"
-              fullWidth
-              hookFormRegister={register("confirmPassword")}
-              error={errors.confirmPassword?.message}
-            />
-
             <div className="mt-4">
               <button
                 className="btn btn-primary"
@@ -99,12 +82,17 @@ export const SignupPage = () => {
                 disabled={isSubmitting}
               >
                 {isSubmitting && <Loading />}
-                Create account
+                Login
               </button>
               <p className="text-sm mt-1">
-                Already have an account?{" "}
-                <Link className="link link-primary" to="/login">
-                  Log in
+                <Link className="link link-primary" to="/forgot-password">
+                  Forgot password?
+                </Link>
+              </p>
+              <p className="text-sm mt-4">
+                Don't have an account?{" "}
+                <Link className="link link-primary" to="/signup">
+                  Sign Up
                 </Link>
               </p>
             </div>
@@ -115,4 +103,4 @@ export const SignupPage = () => {
   );
 };
 
-export default SignupPage;
+export default LoginPage;

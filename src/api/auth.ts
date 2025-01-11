@@ -1,8 +1,8 @@
 import { AxiosRequestConfig } from "axios";
 import http from "./http";
 
-import { TSignupSchema } from "@/lib/schemas/Signup";
-import { TLoginSchema } from "@/lib/schemas/Login";
+import { TSignupSchema } from "@/lib/schemas/signup";
+import { TLoginSchema } from "@/lib/schemas/login";
 
 type TLoginPayload = TLoginSchema;
 export const api_login = (payload: TLoginPayload) => {
