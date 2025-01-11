@@ -10,6 +10,7 @@ import HomePage from "@/pages/home";
 import NotFoundPage from "@/pages/not-found";
 const LoginPage = lazy(() => import("@/pages/login"));
 const ForgotPasswordPage = lazy(() => import("@/pages/forgot-password"));
+const ResetPasswordPage = lazy(() => import("@/pages/reset-password"));
 const LogoutPage = lazy(() => import("@/pages/logout"));
 const SignupPage = lazy(() => import("@/pages/signup"));
 const AboutPage = lazy(() => import("@/pages/about"));
@@ -24,6 +25,7 @@ const AppRouter = () => {
             <Route index element={<HomePage />} />
             <Route path="login" element={<LoginPage />} />
             <Route path="forgot-password" element={<ForgotPasswordPage />} />
+            <Route path="reset-password" element={<ResetPasswordPage />} />
             <Route path="logout" element={<LogoutPage />} />
             <Route path="signup" element={<SignupPage />} />
             <Route path="about" element={<AboutPage />} />

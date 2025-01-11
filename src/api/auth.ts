@@ -5,6 +5,7 @@ import {
   TSignupSchema,
   TLoginSchema,
   TForgotPasswordSchema,
+  TResetPasswordSchema,
 } from "@/lib/schemas/auth";
 
 type TLoginPayload = TLoginSchema;
@@ -32,4 +33,9 @@ export const api_userinfo = ({ cancelToken }: AxiosRequestConfig) => {
 type TForgotPasswordPayload = TForgotPasswordSchema;
 export const api_forgotpassword = (payload: TForgotPasswordPayload) => {
   return http.post("/auth/forgot-password", payload);
+};
+
+type TResetPasswordPayload = TResetPasswordSchema;
+export const api_resetpassword = (payload: TResetPasswordPayload) => {
+  return http.post("/auth/reset-password", payload);
 };
