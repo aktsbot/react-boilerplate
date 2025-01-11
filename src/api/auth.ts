@@ -1,8 +1,11 @@
 import { AxiosRequestConfig } from "axios";
 import http from "./http";
 
-import { TSignupSchema } from "@/lib/schemas/signup";
-import { TLoginSchema } from "@/lib/schemas/login";
+import {
+  TSignupSchema,
+  TLoginSchema,
+  TForgotPasswordSchema,
+} from "@/lib/schemas/auth";
 
 type TLoginPayload = TLoginSchema;
 export const api_login = (payload: TLoginPayload) => {
@@ -24,4 +27,9 @@ export const api_token = () => {
 
 export const api_userinfo = ({ cancelToken }: AxiosRequestConfig) => {
   return http.get("/auth/user-info", { cancelToken });
+};
+
+type TForgotPasswordPayload = TForgotPasswordSchema;
+export const api_forgotpassword = (payload: TForgotPasswordPayload) => {
+  return http.post("/auth/forgot-password", payload);
 };

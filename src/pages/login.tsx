@@ -6,7 +6,7 @@ import PageTitle from "@/components/page-title";
 import { InputText } from "@/components/inputs";
 import Loading from "@/components/loading";
 
-import { LoginSchema, TLoginSchema } from "@/lib/schemas/login";
+import { LoginSchema, TLoginSchema } from "@/lib/schemas/auth";
 import { api_login } from "@/api/auth";
 import { logger } from "@/utils";
 

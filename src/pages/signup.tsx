@@ -7,7 +7,7 @@ import PageTitle from "@/components/page-title";
 import { InputText } from "@/components/inputs";
 import Loading from "@/components/loading";
 
-import { SignupSchema, TSignupSchema } from "@/lib/schemas/signup";
+import { SignupSchema, TSignupSchema } from "@/lib/schemas/auth";
 import { api_signup } from "@/api/auth";
 import { logger } from "@/utils";
 

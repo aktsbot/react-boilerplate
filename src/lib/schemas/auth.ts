@@ -1,5 +1,18 @@
 import { z } from "zod";
 
+export const ForgotPasswordSchema = z.object({
+  email: z.string().email("Please enter an email address"),
+});
+
+export type TForgotPasswordSchema = z.infer<typeof ForgotPasswordSchema>;
+
+export const LoginSchema = z.object({
+  email: z.string().email("Please enter an email address"),
+  password: z.string().min(1, "Please enter a password"),
+});
+
+export type TLoginSchema = z.infer<typeof LoginSchema>;
+
 export const SignupSchema = z
   .object({
     email: z.string().email("Please enter an email address"), // email() makes it required

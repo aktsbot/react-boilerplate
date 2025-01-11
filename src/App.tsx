@@ -7,6 +7,7 @@ import RequireAuth from "@/components/require-auth";
 import AppInit from "@/components/app-init";
 
 import HomePage from "@/pages/home";
+import NotFoundPage from "@/pages/not-found";
 const LoginPage = lazy(() => import("@/pages/login"));
 const ForgotPasswordPage = lazy(() => import("@/pages/forgot-password"));
 const LogoutPage = lazy(() => import("@/pages/logout"));
@@ -37,6 +38,8 @@ const AppRouter = () => {
               }
             />
           </Route>
+          {/* 404 */}
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Suspense>
     </BrowserRouter>
