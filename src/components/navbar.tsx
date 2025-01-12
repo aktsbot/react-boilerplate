@@ -2,6 +2,7 @@ import { NavLink } from "react-router";
 import { useRef, memo } from "react";
 
 import useAuthStore from "@/store/auth";
+import { config } from "@/config";
 
 /**
  * routeType:
@@ -118,7 +119,7 @@ export const Navbar = () => {
       <div className="flex-1">
         {/* the onClick ensures the menu stays closed. */}
         <NavLink to="/" className="btn btn-ghost text-xl" onClick={handleClick}>
-          myapp
+          {config.appTitle}
         </NavLink>
       </div>
       <div className="flex-none">
