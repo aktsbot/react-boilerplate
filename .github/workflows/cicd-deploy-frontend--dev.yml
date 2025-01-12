@@ -64,7 +64,10 @@ jobs:
           port: ${{ secrets.VM_SSH_PORT }}
           script: |
             cd /opt/myapp/frontend
-            mv dist old-dist-backup
+            if [ -d dist ]
+            then
+              mv dist old-dist-backup
+            fi
             cd distfiles
             unzip vite-dist.zip
             mv dist ../
