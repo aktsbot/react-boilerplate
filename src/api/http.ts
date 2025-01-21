@@ -55,7 +55,17 @@ const checkAccessTokenExpiredError = async (e: AxiosError) => {
 };
 
 const errorHandler = async (error: AxiosError) => {
-  await checkAccessTokenExpiredError(error);
+  // axios request cancelled
+  if (error.code === "ERR_CANCELED") {
+    return Promise.reject({ ...error });
+  }
+
+  // the return here would be a new axios instance with new tokens added
+  // after we await, the response needs to be resolved back.
+  const origRequestResponse = await checkAccessTokenExpiredError(error);
+  if (origRequestResponse) {
+    return Promise.resolve(origRequestResponse);
+  }
 
   let message = "Unknown error in backend call";
   const data = error.response?.data as TApiError;
